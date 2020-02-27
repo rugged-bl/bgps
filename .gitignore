@@ -5,6 +5,8 @@ build/
 !**/src/main/**
 !**/src/test/**
 
+default.trace.db
+
 ### STS ###
 .apt_generated
 .classpath
