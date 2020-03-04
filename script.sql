@@ -72,7 +72,7 @@ ALTER TABLE subject
     ADD PRIMARY KEY (id);
 
 ALTER TABLE journal
-    ADD CONSTRAINT R_1 FOREIGN KEY (journal_id) REFERENCES student (id);
+    ADD CONSTRAINT R_1 FOREIGN KEY (STUDENT_ID) REFERENCES student (id);
 
 ALTER TABLE journal
     ADD CONSTRAINT R_2 FOREIGN KEY (mark_id) REFERENCES mark (id);

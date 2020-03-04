@@ -1,19 +1,27 @@
 package ru.inwords.bgps.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import ru.inwords.bgps.model.Student;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class StudentJdbc {
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public StudentJdbc(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public StudentJdbc(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+                .withTableName("student")
+                .usingGeneratedKeyColumns("id");
     }
 
     public Student get(int id) {
@@ -29,21 +37,22 @@ public class StudentJdbc {
     }
 
     public int create(Student student) {
-        return jdbcTemplate.update("INSERT INTO STUDENT (id, surname, name, second_name,study_group_id) VALUES (?, ?, ?, ?, ?)",
-                student.getId(),
-                student.getSurname(),
-                student.getName(),
-                student.getSecond_name(),
-                student.getStudy_group_id());
+        Map<String, Object> parameters = new HashMap<>();
+
+        parameters.put("surname", student.getSurname());
+        parameters.put("name", student.getName());
+        parameters.put("second_name", student.getSecondName());
+        parameters.put("study_group_id", student.getStudyGroupId());
+
+        return simpleJdbcInsert.executeAndReturnKey(parameters).intValue();
     }
 
     public int update(Student student) {
-        return jdbcTemplate.update("UPDATE STUDENT SET surname = '?', name = '?', second_name = '?' ,study_group_id = ? WHERE id = ?",
-
+        return jdbcTemplate.update("UPDATE STUDENT SET surname = ?, name = ?, second_name = ?, study_group_id = ? WHERE id = ?",
                 student.getSurname(),
                 student.getName(),
-                student.getSecond_name(),
-                student.getStudy_group_id(),
+                student.getSecondName(),
+                student.getStudyGroupId(),
                 student.getId());
     }
 
