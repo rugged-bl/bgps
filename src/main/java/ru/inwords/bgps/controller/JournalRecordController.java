@@ -21,13 +21,18 @@ public class JournalRecordController {
         return journalRecordJdbc.get(id);
     }
 
+    @GetMapping
+    public List<JournalRecordExpanded> getAllJournalRecords() {
+        return journalRecordJdbc.getAll();
+    }
+
     @GetMapping("/student/{studentId}")
     public List<JournalRecord> getJournalRecordsByStudent(@PathVariable int studentId) {
         return journalRecordJdbc.getAllByStudent(studentId);
     }
 
     @GetMapping("/study_group/{studyGroupId}")
-    public List<JournalRecord> getJournalRecordsByStudyGroup(@PathVariable int studyGroupId) {
+    public List<JournalRecordExpanded> getJournalRecordsByStudyGroup(@PathVariable int studyGroupId) {
         return journalRecordJdbc.getAllByStudyGroup(studyGroupId);
     }
 
