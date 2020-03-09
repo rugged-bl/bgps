@@ -11,9 +11,13 @@ sourceCompatibility = '1.8'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
+    implementation 'net.progruzovik.bus:bus-datasource-spring-jdbc:1.0-DEAN'
+    implementation 'net.progruzovik.bus:bus-messaging-spring-rest:1.0-DEAN'
+
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
